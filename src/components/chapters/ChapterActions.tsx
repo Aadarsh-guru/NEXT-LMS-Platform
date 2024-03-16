@@ -1,5 +1,4 @@
 "use client"
-import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Trash } from "lucide-react";
