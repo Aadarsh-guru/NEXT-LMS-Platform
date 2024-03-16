@@ -40,7 +40,7 @@
     "react-player": "^2.15.1",
     "react-quill": "^2.0.0",
     "recharts": "^2.12.2",
-    "sharp": "^0.33.2",
+    "sharp": "^0.33.1",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.4"
