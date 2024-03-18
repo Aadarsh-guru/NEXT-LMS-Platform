@@ -56,16 +56,16 @@ const NavbarRoutes = () => {
                 </div>
             )}
             <div className="flex gap-x-2 ml-auto">
-                {session.status === "authenticated" ? (
+                {isCoursePage ? (
+                    <Link href={'/'} >
+                        <Button size={'sm'} variant={'outline'} >
+                            <LogIn className="mr-2 h-4 w-4" />
+                            Exit
+                        </Button>
+                    </Link>
+                ) : (
                     <>
-                        {isCoursePage ? (
-                            <Link href={'/'} >
-                                <Button size={'sm'} variant={'outline'} >
-                                    <LogIn className="mr-2 h-4 w-4" />
-                                    Exit
-                                </Button>
-                            </Link>
-                        ) : (
+                        {session.status === "authenticated" ? (
                             <>
                                 <Image
                                     src={session?.data?.user?.image!}
@@ -78,50 +78,50 @@ const NavbarRoutes = () => {
                                     <LogOut className="h-4 w-4 text-rose-500" />
                                 </Button>
                             </>
+                        ) : (
+                            <Dialog open={openDialog} onOpenChange={() => setOpenDialog(false)} >
+                                <Button onClick={() => setOpenDialog(true)} size={'sm'} variant={'outline'}  >
+                                    <User className="mr-2 h-4 w-4" />
+                                    Sign in
+                                </Button>
+                                <DialogContent className="max-w-sm" >
+                                    <DialogHeader>
+                                        <DialogTitle className="text-center" >Sign in</DialogTitle>
+                                        <DialogDescription className="text-center" >
+                                            To continue to the platform.
+                                        </DialogDescription>
+                                    </DialogHeader>
+                                    <DialogFooter className="py-4" >
+                                        <Button
+                                            onClick={() => onSignIn('google')}
+                                            className={cn(
+                                                "w-full flex items-center justify-center gap-x-2",
+                                                isLoading && "cursor-not-allowed"
+                                            )}
+                                            variant={'outline'}
+                                            disabled={isLoading}
+                                        >
+                                            {isLoading ? (
+                                                <Loader2 className="h-5 w-5 animate-spin" />
+                                            ) : (
+                                                <Image
+                                                    src="/google.svg"
+                                                    alt="Google logo"
+                                                    width={20}
+                                                    height={20}
+                                                    className="mr-2 h-5 w-5"
+                                                />
+                                            )}
+                                            Continue with google
+                                        </Button>
+                                    </DialogFooter>
+                                    <div className="text-xs text-gray-700 text-center">
+                                        By creating an account, you agree to our Terms of Service and Privacy Policy.
+                                    </div>
+                                </DialogContent>
+                            </Dialog>
                         )}
                     </>
-                ) : (
-                    <Dialog open={openDialog} onOpenChange={() => setOpenDialog(false)} >
-                        <Button onClick={() => setOpenDialog(true)} size={'sm'} variant={'outline'}  >
-                            <User className="mr-2 h-4 w-4" />
-                            Sign in
-                        </Button>
-                        <DialogContent className="max-w-sm" >
-                            <DialogHeader>
-                                <DialogTitle className="text-center" >Sign in</DialogTitle>
-                                <DialogDescription className="text-center" >
-                                    To continue to the platform.
-                                </DialogDescription>
-                            </DialogHeader>
-                            <DialogFooter className="py-4" >
-                                <Button
-                                    onClick={() => onSignIn('google')}
-                                    className={cn(
-                                        "w-full flex items-center justify-center gap-x-2",
-                                        isLoading && "cursor-not-allowed"
-                                    )}
-                                    variant={'outline'}
-                                    disabled={isLoading}
-                                >
-                                    {isLoading ? (
-                                        <Loader2 className="h-5 w-5 animate-spin" />
-                                    ) : (
-                                        <Image
-                                            src="/google.svg"
-                                            alt="Google logo"
-                                            width={20}
-                                            height={20}
-                                            className="mr-2 h-5 w-5"
-                                        />
-                                    )}
-                                    Continue with google
-                                </Button>
-                            </DialogFooter>
-                            <div className="text-xs text-gray-700 text-center">
-                                By creating an account, you agree to our Terms of Service and Privacy Policy.
-                            </div>
-                        </DialogContent>
-                    </Dialog>
                 )}
             </div>
         </>

@@ -12,6 +12,8 @@ import {
     Volume2Icon,
     VolumeXIcon,
     CheckIcon,
+    Loader,
+    Loader2,
 } from 'lucide-react';
 import {
     DropdownMenu,
@@ -43,6 +45,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ resolutions, autoPlay, title 
     const [volume, setVolume] = useState(1);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const video = playerRef.current;
@@ -52,6 +55,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ resolutions, autoPlay, title 
         };
         const handleLoadedMetadata = () => {
             setDuration(video.duration);
+            setIsLoading(false);
             const savedTime = sessionStorage.getItem('videoPlaybackTime');
             if (savedTime !== null) {
                 video.currentTime = parseFloat(savedTime);
@@ -82,6 +86,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ resolutions, autoPlay, title 
         if (playerRef.current) {
             sessionStorage.setItem('videoPlaybackTime', playerRef.current.currentTime.toString());
         }
+        setIsLoading(true);
         setSelectedQuality(quality);
     };
 
@@ -161,7 +166,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ resolutions, autoPlay, title 
     return (
         <div
             className={cn(
-                isFullScreen ? "fixed inset-0 z-50 bg-black" : "relative overflow-hidden",
+                isFullScreen ? "fixed inset-0 z-50 bg-black " : "relative overflow-hidden bg-black rounded-lg",
             )}
             onMouseEnter={() => setShowControls(true)}
             onMouseLeave={() => setShowControls(false)}
@@ -179,24 +184,32 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ resolutions, autoPlay, title 
                 autoPlay={autoPlay}
                 src={selectedQuality}
                 ref={playerRef}
-                className="w-full h-full rounded-lg"
+                className="w-full h-full rounded-lg bg-black"
             />
-            <div className={cn(
-                "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/50 text-white p-1 sm:p-4 rounded-md transition-opacity duration-500",
-                showControls ? 'opacity-100' : 'opacity-0'
-            )}>
-                <div className="flex justify-center items-center">
-                    <Button size={'icon'} className='bg-transparent text-white' onClick={handleBackward}>
-                        <StepBackIcon />
-                    </Button>
-                    <Button size={'icon'} className='bg-transparent text-white' onClick={handlePlayPause}>
-                        {isPlaying ? <PauseIcon /> : <PlayIcon />}
-                    </Button>
-                    <Button size={'icon'} className='bg-transparent text-white' onClick={handleForward}>
-                        <StepForwardIcon />
-                    </Button>
+            {isLoading ? (
+                <div className={"absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white p-1 sm:p-4 rounded-md transition-opacity duration-500"}>
+                    <div className="flex justify-center items-center">
+                        <Loader2 className=' text-white w-10 h-10 animate-spin' />
+                    </div>
                 </div>
-            </div>
+            ) : (
+                <div className={cn(
+                    "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/50 text-white p-1 sm:p-4 rounded-md transition-opacity duration-500",
+                    showControls ? 'opacity-100' : 'opacity-0'
+                )}>
+                    <div className="flex justify-center items-center">
+                        <Button size={'icon'} className='bg-transparent text-white' onClick={handleBackward}>
+                            <StepBackIcon />
+                        </Button>
+                        <Button size={'icon'} className='bg-transparent text-white' onClick={handlePlayPause}>
+                            {isPlaying ? <PauseIcon /> : <PlayIcon />}
+                        </Button>
+                        <Button size={'icon'} className='bg-transparent text-white' onClick={handleForward}>
+                            <StepForwardIcon />
+                        </Button>
+                    </div>
+                </div>
+            )}
             <div className={cn(
                 "absolute bottom-0 w-full bg-black/50 text-white p-1 sm:p-4 transition-opacity duration-500 flex rounded-b-md justify-between",
                 showControls ? 'opacity-100' : 'opacity-0'
