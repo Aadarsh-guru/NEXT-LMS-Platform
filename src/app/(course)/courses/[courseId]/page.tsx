@@ -95,7 +95,7 @@ const CourseIdPage = async ({ params }: CourseIdPageProps) => {
                         </div>
                     )}
                 </div>
-                {!isPurchased && (
+                {!(session && isPurchased) && (
                     <CourseEnrollButton courseId={course?.id!} price={course?.price!} >
                         <IndianRupee className="h-4 w-4 mr-1" />
                         <p className="mr-2" >
@@ -104,7 +104,7 @@ const CourseIdPage = async ({ params }: CourseIdPageProps) => {
                         Enroll now
                     </CourseEnrollButton>
                 )}
-                {isPurchased && (
+                {(session && isPurchased) && (
                     <div className="flex items-center gap-x-1">
                         <IconBadge variant={'success'} icon={CheckCircle} />
                         <Link href={`/courses/${course?.id}/chapters/${course?.chapters[0]?.id}`}>
@@ -115,7 +115,7 @@ const CourseIdPage = async ({ params }: CourseIdPageProps) => {
                     </div>
                 )}
             </div>
-            {(isPurchased && course?.attachments?.length! > 0) && (
+            {((session && isPurchased) && course?.attachments?.length! > 0) && (
                 <div className="mt-8">
                     <div className="w-full flex items-center">
                         <h3 className="font-bold text-xl lg:text-2xl text-black/80" >Course Assets</h3>

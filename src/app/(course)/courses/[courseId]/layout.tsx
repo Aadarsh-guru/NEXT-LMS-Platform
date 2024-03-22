@@ -52,13 +52,13 @@ export default async function CourseLayout({
             <div className="h-20 md:pl-80 fixed inset-y-0 w-full z-50">
                 <CourseNavbar
                     course={course}
-                    isPurchased={isPurchased ? true : false}
+                    isPurchased={(session && isPurchased) ? true : false}
                 />
             </div>
             <div className="hidden md:flex h-full w-80 flex-col fixed inset-y-0 z-50">
                 <CourseSidebar
                     course={course}
-                    isPurchased={isPurchased ? true : false}
+                    isPurchased={(session && isPurchased) ? true : false}
                 />
             </div>
             <main className="md:pl-80 pt-20 min-h-full" >
