@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.525.0",
+    "@aws-sdk/client-ses": "^3.654.0",
     "@aws-sdk/s3-request-presigner": "^3.525.0",
     "@hello-pangea/dnd": "^16.5.0",
     "@hookform/resolvers": "^3.3.4",
@@ -31,7 +32,6 @@
     "lucide-react": "^0.343.0",
     "next": "14.0.3",
     "next-auth": "^4.24.6",
-    "nodemailer": "^6.9.11",
     "query-string": "^9.0.0",
     "razorpay": "^2.9.2",
     "react": "^18",
@@ -47,7 +47,6 @@
   },
   "devDependencies": {
     "@types/node": "^20",
-    "@types/nodemailer": "^6.4.14",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",

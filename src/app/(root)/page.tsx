@@ -4,8 +4,6 @@ import CoursesList from "@/components/courses/CoursesList";
 import SearchInput from "@/components/shared/SearchInput";
 import CategoryItem from "@/components/categories/CategoryItem";
 
-export const dynamic = "force-dynamic";
-
 export const metadata: Metadata = {
   title: `Home - ${process.env.NEXT_PUBLIC_APP_NAME || 'Aadarsh Guru'}`,
 };

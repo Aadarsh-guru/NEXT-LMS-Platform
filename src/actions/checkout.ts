@@ -62,7 +62,6 @@ const verifyPaymentAction = async ({ paymentId, orderId, signature, courseId }: 
             }
         });
         await sendMail({
-            from: process.env.GMAIL_MAIL_USER_ID as string,
             to: session?.user?.email!,
             subject: 'Course purchased!',
             html: coursePurchaseConfirmationMailTemplate({
@@ -73,7 +72,6 @@ const verifyPaymentAction = async ({ paymentId, orderId, signature, courseId }: 
             })
         });
         await sendMail({
-            from: process.env.GMAIL_MAIL_USER_ID as string,
             to: process.env.GMAIL_MAIL_USER_ID as string,
             subject: 'New purchase!',
             html: coursePurchasedMailTemplate({

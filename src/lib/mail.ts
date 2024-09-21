@@ -1,23 +1,40 @@
-import nodemailer from 'nodemailer';
+import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.GMAIL_MAIL_USER_ID as string,
-        pass: process.env.GMAIL_MAIL_USER_PASSWORD as string
+// Initialize the SES client
+const sesClient = new SESClient({
+    region: process.env.REGION as string,
+    credentials: {
+        accessKeyId: process.env.ACCESS_KEY as string,
+        secretAccessKey: process.env.SECRET_ACCESS_KEY as string,
     },
 });
 
+const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL as string;
+
 interface ISendMail {
-    from: string;
     to: string;
     subject: string;
     html: string;
 };
 
-const sendMail = async ({ from, to, subject, html }: ISendMail) => {
+const sendMail = async ({ to, subject, html }: ISendMail) => {
     try {
-        return await transporter.sendMail({ from, to, subject, html });
+        const params = {
+            Destination: {
+                ToAddresses: [to],
+            },
+            Message: {
+                Body: {
+                    Html: {
+                        Data: html,
+                    },
+                },
+                Subject: { Data: subject },
+            },
+            Source: adminEmail,
+        };
+        const command = new SendEmailCommand(params);
+        return await sesClient.send(command);
     } catch (error) {
         throw error;
     };
