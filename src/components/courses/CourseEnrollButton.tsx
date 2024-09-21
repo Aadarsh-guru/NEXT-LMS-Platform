@@ -82,15 +82,13 @@ const CourseEnrollButton: React.FC<CourseEnrollButtonProps> = ({ price, courseId
 
     const handleCheckout = async () => {
         if (session.status !== 'authenticated') {
-            return toast({
-                title: "Please login to continue.",
-            });
+            setOpenDialog(true);
+            return;
         }
         setLoading(true);
         try {
             const { success, order } = await checkoutAction(price);
             if (!success) {
-                setOpenDialog(true);
                 return toast({
                     title: "Something went wrong.",
                     variant: "destructive",
